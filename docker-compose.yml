@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+    depends_on:
+      - postgres
+      - redis
+    env_file: config/postgres.env
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    user: app
+    tty: true
+  postgres:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file: config/postgres.env
+  redis:
+    image: redis
+
+volumes:
+  pgdata:
